@@ -18,6 +18,13 @@ void	ft_message(const char *str, char *color)
 	write(1, "\n", 1);
 }
 
+int	terminate(const char *str, char *color, void *ptr)
+{
+	free(ptr);
+	ft_message(str, color);
+	return (EXIT_FAILURE);
+}
+
 void	*mem_alloc(size_t size)
 {
 	void	*ptr;

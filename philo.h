@@ -14,11 +14,17 @@
 
 typedef struct s_data
 {
-	int		num_phil;
-	int		time_die;
-	int		time_eat;
-	int		time_sleep;
-	int		must_eat;
+	long	num_phil;
+	long	time_die;
+	long	time_eat;
+	long	time_sleep;
+	long	must_eat;
+	int		flag;
 }				t_data;
+
+t_data	*parser(int argc, char **argv);
+void	ft_message(const char *str, char *color);
+int		terminate(const char *str, char *color, void *ptr);
+void	*mem_alloc(size_t size);
 
 #endif //PHILO_H
