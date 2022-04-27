@@ -18,12 +18,13 @@ set(SRC_MAN philo/death.c
 		philo/thread.c
 		philo/utils.c)
 
-#set(HEAD_BONUS)
-#
-#set(SRC_BONUS)
+set(HEAD_BONUS philo_bonus/philo_bonus.h
+		philo_bonus/message_bonus.h)
+
+set(SRC_BONUS philo_bonus/philo_bonus.c)
 
 add_executable(philo_man ${SRC_MAN} ${HEAD})
 target_link_libraries(philo_man pthread)
 
-#add_executable(philo_bonus ${SRC_BONUS} ${HEAD_BONUS})
-#target_link_libraries(philo_bonus pthread)
+add_executable(philo_bonus ${SRC_BONUS} ${HEAD_BONUS})
+target_link_libraries(philo_bonus pthread)
