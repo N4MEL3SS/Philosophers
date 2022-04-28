@@ -23,7 +23,7 @@ void	ft_free_all(t_all *info)
 {
 	if (info->phil)
 		free(info->phil);
-	if (info->mutexes->forks)
+	if (info->mutexes && info->mutexes->forks)
 		ft_free_forks(info);
 	if (info->mutexes)
 		ft_free_mutex(info);
