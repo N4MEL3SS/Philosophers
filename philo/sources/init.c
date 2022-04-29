@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../includes/philo.h"
 
 int	ft_init_phil(t_all *info)
 {

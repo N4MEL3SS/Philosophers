@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../includes/philo.h"
 
 int	ft_death(t_phil_data *phil)
 {
@@ -24,6 +24,7 @@ void	*check_dead(void *info_data)
 
 	info = (t_all *)info_data;
 	meals_count = info->data->must_eat;
+	usleep(500);
 	while (meals_count)
 	{
 		i = -1;
