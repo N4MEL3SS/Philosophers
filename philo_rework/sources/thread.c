@@ -1,5 +1,6 @@
 #include "philo.h"
 
+
 void	*start_act(void *phil_thread)
 {
 	t_phil_data	*phil;
