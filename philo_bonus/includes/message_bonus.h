@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 07:30:28 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 07:30:28 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/04 07:32:10 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define ERROR_MALLOC_INIT		"Memory allocation error"
 # define ERROR_SEMOPEN			"Error: failed to open semaphore\n"
 # define ERROR_PID				"Error: failed to create process\n"
-
 
 # define TEXT		"| %s%ld%s | The Philosopher %d %s%s%s |\n"
 # define L_FORK 	"has taken a left fork"
