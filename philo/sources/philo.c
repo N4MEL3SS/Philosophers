@@ -1,14 +1,30 @@
-#include "../includes/philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/04 01:07:00 by celadia           #+#    #+#             */
+/*   Updated: 2022/05/04 01:07:00 by celadia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 int	main(int argc, char *argv[])
 {
+	t_data	data;
 	t_all	info;
 
 	if (argc != 5 && argc != 6)
-		return (ft_error(INDEX_NUM_ARG, &info));
-	if (parser(argc, argv, &info) || info.data->must_eat == 0)
-		return (ft_error(INDEX_INP_ARG, &info));
-	if (mutex_init(&info, info.data))
-		return (ft_error(INDEX_MUTEX, &info));
-	return (ft_error(phil_thread_init(&info), &info));
+		return (ft_error(ERRNUM_ARG_COUNT));
+	if (parser(argc, argv, &data))
+		return (ft_error(ERRNUM_ARG_INVAL));
+	if (mutex_init(&info, &data))
+		return (ft_error(info.errnum));
+	if (thread_init(&info))
+		return (ft_error(info.errnum));
+	ft_free_all(&info, EXIT_SUCCESS);
+	return (0);
 }

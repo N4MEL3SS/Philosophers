@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/04 01:07:15 by celadia           #+#    #+#             */
+/*   Updated: 2022/05/04 04:57:14 by celadia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -14,13 +26,12 @@
 
 typedef struct s_data
 {
-	int		num_phil;
+	int		phil_count;
 	int		time_die;
 	int		time_eat;
 	int		time_sleep;
 	int		must_eat;
 	int		flag;
-	long	time;
 }				t_data;
 
 typedef struct s_mutexes
@@ -31,34 +42,40 @@ typedef struct s_mutexes
 
 typedef struct s_phil_data
 {
-	int				phil_id;
-	int				must_eat;
-	long			start_time;
-	long			stop_eat;
-	t_data			*data;
-	t_mutexes		*mutex;
-	pthread_t		thread;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
+	int					phil_id;
+	long				start_time;
+	long				last_meal;
+	t_data				*data;
+	t_mutexes			*mutex;
+	pthread_t			thread;
+	pthread_mutex_t		*l_fork;
+	pthread_mutex_t		*r_fork;
 }				t_phil_data;
 
 typedef struct s_all
 {
-	pthread_t		death;
 	t_data			*data;
 	t_mutexes		*mutexes;
 	t_phil_data		*phil;
+	pthread_t		dead;
+	int				errnum;
 }				t_all;
 
-int		parser(int argc, char **argv, t_all *info);
+int		parser(int argc, char **argv, t_data *data);
 int		mutex_init(t_all *info, t_data *data);
-int		phil_thread_init(t_all *info);
-void	*check_dead(void *all_data);
+int		thread_init(t_all *info);
 
 void	*start_act(void *phil_thread);
+void	*ft_check_dead(void *all_info);
+void	ft_wait(long wait_time);
 
-int		ft_error(int err_index, t_all *info);
-void	ft_free_all(t_all *info);
+int		ft_forever(void);
+int		ft_error(int errnum);
+
+int		ft_free_all(t_all *info, int errnum);
+
+/* utils.c */
+int		ft_strlen(const char *str);
 long	ft_get_time(void);
 
 #endif //PHILO_H

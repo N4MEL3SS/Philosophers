@@ -1,43 +1,60 @@
-#include "../includes/philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   death.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/04 01:06:45 by celadia           #+#    #+#             */
+/*   Updated: 2022/05/04 05:12:04 by celadia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_death(t_phil_data *phil)
+#include "philo.h"
+
+void	ft_wait(long wait_time)
 {
-	long	hunger_time;
 	long	time;
 
-	hunger_time = ft_get_time() - phil->stop_eat;
-	time = ft_get_time() - phil->start_time;
+	time = ft_get_time();
+	wait_time += time;
+	while (time < wait_time)
+	{
+		usleep(100);
+		time = ft_get_time();
+	}
+}
+
+static int	death_checker(t_phil_data *phil)
+{
+	long	hunger_time;
+
+	hunger_time = ft_get_time() - phil->last_meal;
 	if (hunger_time > phil->data->time_die)
 	{
 		pthread_mutex_lock(&phil->mutex->output);
-		printf(TEXT, time, phil->phil_id, RED, DEATH, RESET);
+		printf("%s| %ld | The Philosopher %d is dead |%s\n", RED, \
+			ft_get_time() - phil->start_time, phil->phil_id, RESET);
 		return (1);
 	}
 	return (0);
 }
 
-void	*check_dead(void *info_data)
+void	*ft_check_dead(void *all_info)
 {
 	t_all	*info;
-	int		meals_count;
 	int		i;
 
-	info = (t_all *)info_data;
-	meals_count = info->data->must_eat;
-	usleep(500);
-	while (meals_count)
+	i = 0;
+	info = (t_all *)all_info;
+	while (info->data->must_eat)
 	{
-		i = -1;
-		meals_count = 0;
-		while (++i < info->data->num_phil)
-		{
-			meals_count += info->phil[i].must_eat;
-			if (ft_death(&info->phil[i]))
-				return (NULL);
-			usleep(50);
-		}
+		if (death_checker(&info->phil[i]))
+			return (NULL);
+		i++;
+		i %= info->data->phil_count;
 	}
 	pthread_mutex_lock(&info->mutexes->output);
-	printf("The Philosopher are full!\n");
+	printf("%sThe Philosophers are full sad!%s\n", GREEN, RESET);
 	return (NULL);
 }

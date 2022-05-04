@@ -1,45 +1,46 @@
-#include "../includes/philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/04 01:07:29 by celadia           #+#    #+#             */
+/*   Updated: 2022/05/04 04:45:38 by celadia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 int	ft_atoi(char *str, int *res)
 {
 	unsigned long	temp;
-	int				flag;
 
-	flag = 0;
 	temp = 0;
 	if (*str == '-')
-		flag = 1;
+		return (1);
 	else if (*str == '+')
 		str++;
 	while ('0' <= *str && *str <= '9')
 		temp = temp * 10L + (*str++ - 48);
 	if (*str != '\0' || temp > INT32_MAX)
-		flag = 1;
+		return (1);
 	*res = (int)temp;
-	return (flag);
+	return (0);
 }
 
-int	parser(int argc, char **argv, t_all *info)
+int	parser(int argc, char **argv, t_data *data)
 {
-	t_data	*data;
-
-	data = (t_data *)malloc(sizeof(t_data));
-	if (!data)
-		return (INDEX_MALLOC);
-	info->data = data;
-	if (argc == 5 || argc == 6)
-	{
-		data->flag = 0;
-		data->flag += ft_atoi(*++argv, &data->num_phil);
-		data->flag += ft_atoi(*++argv, &data->time_die);
-		data->flag += ft_atoi(*++argv, &data->time_eat);
-		data->flag += ft_atoi(*++argv, &data->time_sleep);
-		if (argc == 6)
-			data->flag += ft_atoi(*++argv, &data->must_eat);
-		else
-			data->must_eat = -1;
-	}
-	if (data->flag)
-		return (INDEX_MALLOC);
-	return (0);
+	data->flag = 0;
+	data->flag += ft_atoi(argv[1], &data->phil_count);
+	data->flag += ft_atoi(argv[2], &data->time_die);
+	data->flag += ft_atoi(argv[3], &data->time_eat);
+	data->flag += ft_atoi(argv[4], &data->time_sleep);
+	if (argc == 6)
+		data->flag += ft_atoi(argv[5], &data->must_eat);
+	else
+		data->must_eat = -1;
+	if (data->phil_count == 0)
+		return (ft_forever());
+	return (data->flag);
 }
