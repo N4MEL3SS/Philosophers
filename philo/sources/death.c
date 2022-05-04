@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:06:45 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 05:12:04 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/04 12:02:00 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,23 @@ void	*ft_check_dead(void *all_info)
 {
 	t_all	*info;
 	int		i;
+	int		meals;
 
 	i = 0;
 	info = (t_all *)all_info;
-	while (info->data->must_eat)
+	meals = info->data->must_eat;
+	while (meals)
 	{
-		if (death_checker(&info->phil[i]))
-			return (NULL);
-		i++;
-		i %= info->data->phil_count;
+		i = -1;
+		meals = 0;
+		while (++i < info->data->phil_count)
+		{
+			if (death_checker(&info->phil[i]))
+				return (NULL);
+			meals += info->phil[i].must_eat;
+		}
+		if (meals == 0)
+			info->data->flag = 0;
 	}
 	pthread_mutex_lock(&info->mutexes->output);
 	printf("%sThe Philosophers are full sad!%s\n", GREEN, RESET);

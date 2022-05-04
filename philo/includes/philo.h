@@ -43,6 +43,7 @@ typedef struct s_mutexes
 typedef struct s_phil_data
 {
 	int					phil_id;
+	int					must_eat;
 	long				start_time;
 	long				last_meal;
 	t_data				*data;

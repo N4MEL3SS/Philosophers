@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:07:33 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 05:07:19 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/04 12:02:00 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_init_phil(t_all *info)
 	{
 		info->phil[i].phil_id = i + 1;
 		info->phil[i].data = info->data;
+		info->phil[i].must_eat = info->data->must_eat;
 		info->phil[i].mutex = info->mutexes;
 		info->phil[i].r_fork = &info->mutexes->forks[i];
 		info->phil[i].l_fork = &info->mutexes->forks[(i + 1) % \
@@ -38,6 +39,7 @@ int	mutex_init(t_all *info, t_data *data)
 
 	i = -1;
 	info->data = data;
+	info->data->flag = 1;
 	info->mutexes = malloc(sizeof(t_mutexes));
 	if (!info->mutexes)
 		return (ft_free_all(info, ERRNUM_MALLOC_INIT));

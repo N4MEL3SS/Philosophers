@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:06:57 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 07:20:32 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/04 12:13:48 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@ void	eating(t_phil_data *phil)
 	pthread_mutex_lock(phil->r_fork);
 	pthread_mutex_lock(phil->l_fork);
 	time = ft_get_time() - phil->start_time;
-	pthread_mutex_lock(&phil->mutex->output);
-	printf(TEXT, YELLOW, time, RESET, phil->phil_id, YELLOW, L_FORK, RESET);
-	printf(TEXT, YELLOW, time, RESET, phil->phil_id, YELLOW, R_FORK, RESET);
-	printf(TEXT, CYAN, time, RESET, phil->phil_id, CYAN, EAT, RESET);
-	pthread_mutex_unlock(&phil->mutex->output);
+	if (phil->data->flag)
+	{
+		pthread_mutex_lock(&phil->mutex->output);
+		printf(TEXT, YELLOW, time, RESET, phil->phil_id, YELLOW, L_FORK, RESET);
+		printf(TEXT, YELLOW, time, RESET, phil->phil_id, YELLOW, R_FORK, RESET);
+		printf(TEXT, CYAN, time, RESET, phil->phil_id, CYAN, EAT, RESET);
+		pthread_mutex_unlock(&phil->mutex->output);
+	}
 	phil->last_meal = ft_get_time();
 	ft_wait(phil->data->time_eat);
 }
@@ -34,8 +37,11 @@ void	sleeping(t_phil_data *phil)
 
 	pthread_mutex_unlock(phil->r_fork);
 	pthread_mutex_unlock(phil->l_fork);
-	time = ft_get_time() - phil->start_time;
-	printf(TEXT, BLUE, time, RESET, phil->phil_id, BLUE, SLEEP, RESET);
+	if (phil->data->flag)
+	{
+		time = ft_get_time() - phil->start_time;
+		printf(TEXT, BLUE, time, RESET, phil->phil_id, BLUE, SLEEP, RESET);
+	}
 	ft_wait(phil->data->time_sleep);
 }
 
@@ -43,8 +49,11 @@ void	thinking(t_phil_data *phil)
 {
 	long		time;
 
-	time = ft_get_time() - phil->start_time;
-	printf(TEXT, MAGENTA, time, RESET, phil->phil_id, MAGENTA, THINK, RESET);
+	if (phil->data->flag)
+	{
+		time = ft_get_time() - phil->start_time;
+		printf(TEXT, MAGENT, time, RESET, phil->phil_id, MAGENT, THINK, RESET);
+	}
 }
 
 void	*start_act(void *phil_thread)
@@ -53,13 +62,16 @@ void	*start_act(void *phil_thread)
 
 	phil = (t_phil_data *)phil_thread;
 	pthread_detach(phil->thread);
-	while (phil->data->must_eat)
+	while (1)
 	{
-		eating(phil);
-		if (phil->data->must_eat > 0)
-			phil->data->must_eat--;
-		sleeping(phil);
-		thinking(phil);
+		if (phil->must_eat != 0)
+		{
+			eating(phil);
+			if (phil->must_eat > 0)
+				phil->must_eat--;
+			sleeping(phil);
+			thinking(phil);
+		}
 	}
 	return (NULL);
 }
