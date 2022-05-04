@@ -14,7 +14,7 @@
 
 void	ft_error(char *str)
 {
-	if (*str == '\0')
+	if (!str)
 		exit(EXIT_SUCCESS);
 	write(2, RED, COLOR_SIZE);
 	write(2, "Error: ", 7);
