@@ -5,13 +5,13 @@
 #                                                     +:+ +:+         +:+      #
 #    By: celadia <celadia@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/05/04 07:29:28 by celadia           #+#    #+#              #
-#    Updated: 2022/05/04 07:29:28 by celadia          ###   ########.fr        #
+#    Created: 2022/05/04 07:29:19 by celadia           #+#    #+#              #
+#    Updated: 2022/05/04 07:29:19 by celadia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #	PROGRAM_NAMES
-NAME = philo
+NAME = philo_bonus
 
 #	FLAG_COMPILATION
 CC = clang
@@ -20,21 +20,20 @@ HEADERS_DIR = ./includes/
 INCLUDES = -I$(HEADERS_DIR)
 
 #	HEADERS
-HEADERS_LIST = 	message.h	\
-				philo.h
+HEADERS_LIST = 	message_bonus.h	\
+				philo_bonus.h
 HEADERS = $(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 
 #	SOURCE
 SRCS_DIR = ./sources/
-SRCS_LIST = death.c			\
-			error.c			\
-			free.c			\
-			init.c			\
-			live.c			\
-			parser.c		\
-			philo.c			\
-			thread.c		\
-			utils.c
+SRCS_LIST = death_bonus.c		\
+			error_bonus.c		\
+			init_bonus.c		\
+			live_bonus.c		\
+			parser_bonus.c		\
+			philo_bonus.c		\
+			process_bonus.c		\
+			utils_bonus.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 
 #	OBJECT_FILES

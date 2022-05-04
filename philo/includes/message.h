@@ -27,13 +27,12 @@
 # define ERROR_THREAD_CREATE	"Thread can't be created"
 # define ERROR_THREAD_JOIN		"Thread can't be joined"
 
-# define TEXT	"| %s%ld%s | The Philosopher %d %s%s%s |\n"
+# define TEXT		"| %s%ld%s | The Philosopher %d %s%s%s |\n"
 # define L_FORK 	"has taken a left fork"
 # define R_FORK 	"has taken a right fork"
-# define EAT	"is eating"
-# define SLEEP	"is sleeping"
-# define THINK	"is thinking"
-# define DEATH	"died"
+# define EAT		"is eating"
+# define SLEEP		"is sleeping"
+# define THINK		"is thinking"
 
 /* Foreground colors */
 # define RED 		"\e[0;31m"

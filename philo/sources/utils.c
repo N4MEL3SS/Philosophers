@@ -20,14 +20,6 @@ long	ft_get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-uint64_t	ft_get_time_usec(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000000 + time.tv_usec);
-}
-
 int	ft_strlen(const char *str)
 {
 	int	len;

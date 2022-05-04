@@ -6,11 +6,11 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:07:38 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 04:57:14 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/04 05:07:19 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "philo.h"
 
 void	ft_free_forks(t_all *info)
 {
