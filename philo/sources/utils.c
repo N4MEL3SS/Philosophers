@@ -12,6 +12,13 @@
 
 #include "philo.h"
 
+void	ft_msg(t_phil_data *phil, char *color, char *msg, long time)
+{
+	pthread_mutex_lock(&phil->mutex->output);
+	printf(TEXT, color, time, RESET, phil->phil_id, color, msg, RESET);
+	pthread_mutex_unlock(&phil->mutex->output);
+}
+
 long	ft_get_time(void)
 {
 	struct timeval	time;

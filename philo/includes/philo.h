@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:07:15 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 04:57:14 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/06 19:40:14 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_data
 	int		time_sleep;
 	int		must_eat;
 	int		flag;
+	long	start_time;
 }				t_data;
 
 typedef struct s_mutexes
@@ -44,6 +45,7 @@ typedef struct s_phil_data
 {
 	int					phil_id;
 	int					must_eat;
+	int					must_flag;
 	long				start_time;
 	long				last_meal;
 	t_data				*data;
@@ -76,6 +78,7 @@ int		ft_error(int errnum);
 int		ft_free_all(t_all *info, int errnum);
 
 /* utils.c */
+void	ft_msg(t_phil_data *phil, char *color, char *msg, long time);
 int		ft_strlen(const char *str);
 long	ft_get_time(void);
 

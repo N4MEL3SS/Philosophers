@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:06:45 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 12:02:00 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/06 19:35:44 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_wait(long wait_time)
 	}
 }
 
-static int	death_checker(t_phil_data *phil)
+int	death_checker(t_phil_data *phil)
 {
 	long	hunger_time;
 
@@ -33,8 +33,8 @@ static int	death_checker(t_phil_data *phil)
 	if (hunger_time > phil->data->time_die)
 	{
 		pthread_mutex_lock(&phil->mutex->output);
-		printf("%s| %ld | The Philosopher %d is dead |%s\n", RED, \
-			ft_get_time() - phil->start_time, phil->phil_id, RESET);
+		printf("%sThe Philosopher %d is dead. Time of death %ld %s\n", \
+			RED, phil->phil_id, ft_get_time() - phil->start_time, RESET);
 		return (1);
 	}
 	return (0);
@@ -46,9 +46,8 @@ void	*ft_check_dead(void *all_info)
 	int		i;
 	int		meals;
 
-	i = 0;
 	info = (t_all *)all_info;
-	meals = info->data->must_eat;
+	meals = 1;
 	while (meals)
 	{
 		i = -1;

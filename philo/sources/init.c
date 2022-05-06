@@ -25,6 +25,9 @@ int	ft_init_phil(t_all *info)
 		info->phil[i].phil_id = i + 1;
 		info->phil[i].data = info->data;
 		info->phil[i].must_eat = info->data->must_eat;
+		info->phil[i].must_flag = 0;
+		if (info->data->must_eat > 0)
+			info->phil[i].must_flag = 1;
 		info->phil[i].mutex = info->mutexes;
 		info->phil[i].r_fork = &info->mutexes->forks[i];
 		info->phil[i].l_fork = &info->mutexes->forks[(i + 1) % \

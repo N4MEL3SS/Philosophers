@@ -16,7 +16,7 @@ int	make_thread(t_all *info, int i)
 {
 	while (i < info->data->phil_count)
 	{
-		info->phil[i].start_time = ft_get_time();
+		info->phil[i].start_time = info->data->start_time;
 		info->phil[i].last_meal = info->phil[i].start_time;
 		if (pthread_create(&info->phil[i].thread, NULL, \
 			&start_act, &info->phil[i]) != 0)
@@ -28,6 +28,7 @@ int	make_thread(t_all *info, int i)
 
 int	thread_init(t_all *info)
 {
+	info->data->start_time = ft_get_time();
 	if (make_thread(info, 0))
 		return (ft_free_all(info, ERRNUM_THREAD_CREATE));
 	usleep(100);
