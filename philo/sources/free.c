@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:07:38 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 05:07:19 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/16 15:53:53 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,13 @@ void	ft_free_forks(t_all *info)
 
 	i = -1;
 	while (++i < info->data->phil_count)
-	{
 		if (&info->mutexes->forks[i])
 			pthread_mutex_destroy(&info->mutexes->forks[i]);
-	}
 	free(info->mutexes->forks);
 }
 
 void	ft_free_mutex(t_all *info)
 {
-	pthread_mutex_unlock(&info->mutexes->output);
 	pthread_mutex_destroy(&info->mutexes->output);
 	free(info->mutexes);
 }

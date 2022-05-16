@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 07:31:31 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 07:31:31 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/16 18:51:30 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ void	wait_loop(t_all *info)
 	i = -1;
 	while (++i < info->data->phil_count)
 	{
+		j = -1;
 		waitpid(-1, &status, 0);
 		if (status == 0)
-		{
-			j = -1;
 			while (++j < info->data->phil_count)
 				kill(info->phil->pid[j], SIGTERM);
-		}
 	}
 }
 
@@ -38,9 +36,12 @@ void	process_init(t_all *info)
 	i = -1;
 	while (++i < info->data->phil_count)
 	{
+		usleep(50);
 		info->phil->pid[i] = fork();
 		if (!info->phil->pid[i])
 		{
+			info->phil->start_time = ft_get_time();
+			info->phil->last_meal = info->phil->start_time;
 			info->phil->phil_id = i + 1;
 			start_bonus(info->phil);
 		}

@@ -6,11 +6,19 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 07:31:37 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 07:31:37 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/16 18:25:37 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	ft_msg(t_phil_data *phil, char *color, char *msg, long time)
+{
+	sem_wait(phil->sema->output);
+	if (phil->data->flag == 0)
+		printf(TEXT, color, time, RESET, phil->phil_id, color, msg, RESET);
+	sem_post(phil->sema->output);
+}
 
 long	ft_get_time(void)
 {

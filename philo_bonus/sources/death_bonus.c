@@ -6,35 +6,29 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 07:30:44 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 07:30:44 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/16 18:41:09 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	ft_wait(long wait_time)
+void	ft_wait(int delay)
 {
-	long	time;
+	long	wait_time;
 
-	time = ft_get_time();
-	wait_time += time;
-	while (time < wait_time)
-	{
-		usleep(100);
-		time = ft_get_time();
-	}
+	wait_time = ft_get_time() + delay;
+	while (ft_get_time() < wait_time)
+		usleep(delay / 4);
 }
 
 void	death_checker(t_phil_data *phil)
 {
-	long	hunger_time;
-
-	hunger_time = ft_get_time() - phil->last_meal;
-	if (hunger_time > phil->data->time_die)
+	if (ft_get_time() - phil->last_meal > phil->data->time_die)
 	{
 		sem_wait(phil->sema->output);
-		printf("%s| %ld | The Philosopher %d is dead |%s\n", RED, \
-			ft_get_time() - phil->start_time, phil->phil_id, RESET);
+		printf("%sThe Philosopher %d is dead. Time of death %ld %s\n", \
+			RED, phil->phil_id, ft_get_time() - phil->start_time, RESET);
+		phil->data->flag = 1;
 		exit (0);
 	}
 }
@@ -42,14 +36,22 @@ void	death_checker(t_phil_data *phil)
 void	*ft_check_dead(void *philos)
 {
 	t_phil_data	*phil;
+	int			delay;
+	int			meals;
 
+	meals = 0;
 	phil = (t_phil_data *)philos;
-	while (phil->data->must_eat)
+	delay = phil->data->time_die / 4;
+	while (phil->must_eat)
 	{
 		death_checker(phil);
-		usleep(100);
+		meals += phil->must_eat;
+		if (meals == 0)
+		{
+			sem_wait(phil->sema->output);
+			printf("%sThe Philosophers are full sad!%s\n", GREEN, RESET);
+			exit (0);
+		}
 	}
-	sem_wait(phil->sema->output);
-	printf("%sThe Philosophers are full sad!%s\n", GREEN, RESET);
 	exit (0);
 }

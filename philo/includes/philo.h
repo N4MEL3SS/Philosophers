@@ -45,7 +45,6 @@ typedef struct s_phil_data
 {
 	int					phil_id;
 	int					must_eat;
-	int					must_flag;
 	long				start_time;
 	long				last_meal;
 	t_data				*data;
@@ -70,7 +69,7 @@ int		thread_init(t_all *info);
 
 void	*start_act(void *phil_thread);
 void	*ft_check_dead(void *all_info);
-void	ft_wait(long wait_time);
+void	ft_wait(int wait_time);
 
 int		ft_forever(void);
 int		ft_error(int errnum);

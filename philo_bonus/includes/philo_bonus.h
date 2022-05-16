@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 07:30:35 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 07:30:35 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/16 17:07:34 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_sema
 typedef struct s_phil_data
 {
 	int					phil_id;
+	int					must_eat;
 	long				start_time;
 	long				last_meal;
 	t_data				*data;
@@ -72,10 +73,11 @@ void	ft_error(char *str);
 void	ft_free_all(t_all *info, char *str);
 void	ft_forever(void);
 
-void	ft_wait(long wait_time);
+void	ft_wait(int delay);
 void	*ft_check_dead(void *philos);
 
 /* utils.c */
+void	ft_msg(t_phil_data *phil, char *color, char *msg, long time);
 int		ft_strlen(const char *str);
 long	ft_get_time(void);
 

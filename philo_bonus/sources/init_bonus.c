@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 07:30:53 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 07:30:53 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/16 17:37:10 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_init_phil(t_all *info)
 	if (!info->phil->pid)
 		ft_free_all(info, ERROR_MALLOC_INIT);
 	info->data->flag = 0;
+	info->phil->must_eat = info->data->must_eat;
 	info->phil->data = info->data;
 	info->phil->sema = info->sema;
 }
