@@ -6,16 +6,18 @@
 #    By: celadia <celadia@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/04 07:29:28 by celadia           #+#    #+#              #
-#    Updated: 2022/05/04 07:29:28 by celadia          ###   ########.fr        #
+#    Updated: 2022/05/17 13:54:44 by celadia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #	PROGRAM_NAMES
 NAME = philo
+NAME_DEBUG = philo_debug
 
 #	FLAG_COMPILATION
 CC = clang
 FLAGS = -Wall -Werror -Wextra
+DEBUG_FLAGS = -Wall -Werror -Wextra -fsanitize=thread
 HEADERS_DIR = ./includes/
 INCLUDES = -I$(HEADERS_DIR)
 
@@ -33,7 +35,6 @@ SRCS_LIST = death.c			\
 			live.c			\
 			parser.c		\
 			philo.c			\
-			thread.c		\
 			utils.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 
@@ -68,9 +69,15 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -f $(NAME_DEBUG)
 	@echo "$(RED) $(NAME) was deleted. $(RESET)"
 	@rm -rf $(OBJS_DIR_NAME)
 
+debug: fclean $(OBJS_DIR) $(OBJS)
+	@echo "$(GREEN) Debug mod: $(RESET)"
+	@$(CC) $(DEBUG_FLAGS) $(INCLUDES) $(OBJS) -o $(NAME_DEBUG)
+	@echo "$(GREEN) $(NAME_DEBUG) created. $(RESET)"
+
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean debug re

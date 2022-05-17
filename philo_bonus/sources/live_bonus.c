@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 07:31:03 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/16 18:51:30 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/17 17:43:51 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	eating(t_phil_data *phil)
 {
 	long		time;
 
-	time = ft_get_time() - phil->start_time;
 	sem_wait(phil->sema->forks);
+	time = ft_get_time() - phil->start_time;
 	ft_msg(phil, YELLOW, FORKS, time);
 	ft_msg(phil, CYAN, EAT, time);
 	phil->last_meal = ft_get_time();
@@ -42,9 +42,10 @@ void	*start_bonus(t_phil_data *phil)
 {
 	pthread_t	dead_thread;
 
-	pthread_create(&dead_thread, NULL, ft_check_dead, (void *)phil);
+	phil->start_time = ft_get_time();
+	phil->last_meal = phil->start_time;
+	pthread_create(&dead_thread, NULL, thread_control, (void *)phil);
 	pthread_detach(dead_thread);
-	printf("id %d - %ld\n", phil->phil_id, phil->start_time);
 	while (phil->must_eat)
 	{
 		eating(phil);
@@ -53,5 +54,5 @@ void	*start_bonus(t_phil_data *phil)
 		sleeping(phil);
 		thinking(phil);
 	}
-	exit(0);
+	return (NULL);
 }

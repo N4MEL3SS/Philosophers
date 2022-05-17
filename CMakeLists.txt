@@ -16,7 +16,6 @@ set(SRC philo/sources/death.c
 		philo/sources/live.c
 		philo/sources/parser.c
 		philo/sources/philo.c
-		philo/sources/thread.c
 		philo/sources/utils.c)
 
 add_executable(philo ${SRC} ${HEAD})
@@ -31,7 +30,6 @@ set(SRC_BONUS philo_bonus/sources/death_bonus.c
 		philo_bonus/sources/live_bonus.c
 		philo_bonus/sources/parser_bonus.c
 		philo_bonus/sources/philo_bonus.c
-		philo_bonus/sources/process_bonus.c
 		philo_bonus/sources/utils_bonus.c)
 
 add_executable(philo_bonus ${SRC_BONUS} ${HEAD_BONUS})

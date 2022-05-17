@@ -6,33 +6,26 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:06:45 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/16 17:18:08 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/17 18:15:18 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_wait(int delay)
-{
-	long	wait_time;
-
-	wait_time = ft_get_time() + delay;
-	while (ft_get_time() < wait_time)
-		usleep(delay / 4);
-}
-
 int	death_checker(t_phil_data *phil)
 {
-	if (ft_get_time() - phil->last_meal < phil->data->time_die)
-		return (0);
-	pthread_mutex_lock(&phil->mutex->output);
-	printf("%sThe Philosopher %d is dead. Time of death %ld %s\n", \
-		RED, phil->phil_id, ft_get_time() - phil->start_time, RESET);
-	phil->data->flag = 0;
-	return (1);
+	pthread_mutex_lock(&phil->mutex->output_block);
+	if (ft_get_time() - phil->last_meal > phil->data->time_die)
+	{
+		printf("%sThe Philosopher %d is dead. Time of death %ld %s\n", \
+			RED, phil->phil_id, ft_get_time() - phil->start_time, RESET);
+		return (1);
+	}
+	pthread_mutex_unlock(&phil->mutex->output_block);
+	return (0);
 }
 
-void	*ft_check_dead(void *all_info)
+void	*thread_control(void *all_info)
 {
 	t_all	*info;
 	int		i;
@@ -46,12 +39,14 @@ void	*ft_check_dead(void *all_info)
 		meals = 0;
 		while (++i < info->data->phil_count)
 		{
+			pthread_mutex_lock(&info->mutexes->data_block[i]);
 			meals += info->phil[i].must_eat;
+			pthread_mutex_unlock(&info->mutexes->data_block[i]);
 			if (death_checker(&info->phil[i]))
 				return (NULL);
 		}
 	}
-	pthread_mutex_lock(&info->mutexes->output);
+	pthread_mutex_lock(&info->mutexes->output_block);
 	printf("%sThe Philosophers are full sad!%s\n", GREEN, RESET);
 	info->data->flag = 0;
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:06:52 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/04 03:00:05 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/17 14:22:15 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define TEXT		"| %s%ld%s | The Philosopher %d %s%s%s |\n"
 # define L_FORK 	"has taken a left fork"
 # define R_FORK 	"has taken a right fork"
+# define OUT_FORK 	"put the forks"
 # define EAT		"is eating"
 # define SLEEP		"is sleeping"
 # define THINK		"is thinking"
@@ -40,7 +41,7 @@
 # define GREY 		"\e[3;37m"
 # define YELLOW		"\e[0;33m"
 # define BLUE 		"\e[0;34m"
-# define MAGENTA		"\e[0;35m"
+# define MAGENTA	"\e[0;35m"
 # define CYAN		"\e[0;36m"
 # define RESET 		"\e[0;39m"
 

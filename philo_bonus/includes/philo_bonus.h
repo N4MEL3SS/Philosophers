@@ -74,7 +74,7 @@ void	ft_free_all(t_all *info, char *str);
 void	ft_forever(void);
 
 void	ft_wait(int delay);
-void	*ft_check_dead(void *philos);
+void	*thread_control(void *philos);
 
 /* utils.c */
 void	ft_msg(t_phil_data *phil, char *color, char *msg, long time);

@@ -18,14 +18,18 @@ void	ft_free_forks(t_all *info)
 
 	i = -1;
 	while (++i < info->data->phil_count)
+	{
 		if (&info->mutexes->forks[i])
 			pthread_mutex_destroy(&info->mutexes->forks[i]);
+		if (&info->mutexes->data_block[i])
+			pthread_mutex_destroy(&info->mutexes->data_block[i]);
+	}
 	free(info->mutexes->forks);
 }
 
 void	ft_free_mutex(t_all *info)
 {
-	pthread_mutex_destroy(&info->mutexes->output);
+	pthread_mutex_destroy(&info->mutexes->output_block);
 	free(info->mutexes);
 }
 

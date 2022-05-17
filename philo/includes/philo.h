@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:07:15 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/06 19:40:14 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/17 16:10:36 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef struct s_data
 typedef struct s_mutexes
 {
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	output;
+	pthread_mutex_t	*data_block;
+	pthread_mutex_t	output_block;
 }				t_mutexes;
 
 typedef struct s_phil_data
@@ -49,6 +50,7 @@ typedef struct s_phil_data
 	long				last_meal;
 	t_data				*data;
 	t_mutexes			*mutex;
+	pthread_mutex_t		data_block;
 	pthread_t			thread;
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
@@ -63,22 +65,30 @@ typedef struct s_all
 	int				errnum;
 }				t_all;
 
+/* parser.c */
 int		parser(int argc, char **argv, t_data *data);
+
+/* init.c */
 int		mutex_init(t_all *info, t_data *data);
 int		thread_init(t_all *info);
 
+/* live.c */
 void	*start_act(void *phil_thread);
-void	*ft_check_dead(void *all_info);
-void	ft_wait(int wait_time);
 
+/* death.c */
+void	*thread_control(void *all_info);
+
+/* error.c */
 int		ft_forever(void);
 int		ft_error(int errnum);
 
+/* free.c */
 int		ft_free_all(t_all *info, int errnum);
 
 /* utils.c */
 void	ft_msg(t_phil_data *phil, char *color, char *msg, long time);
 int		ft_strlen(const char *str);
 long	ft_get_time(void);
+void	ft_wait(int wait_time);
 
 #endif //PHILO_H

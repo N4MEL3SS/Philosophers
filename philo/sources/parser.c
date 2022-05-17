@@ -40,7 +40,7 @@ int	parser(int argc, char **argv, t_data *data)
 		data->flag += ft_atoi(argv[5], &data->must_eat);
 	else
 		data->must_eat = -1;
-	if (data->phil_count == 0)
+	if (!data->phil_count)
 		return (ft_forever());
 	return (data->flag);
 }

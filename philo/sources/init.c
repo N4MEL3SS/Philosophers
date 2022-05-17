@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 01:07:33 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/16 17:07:34 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/17 13:51:06 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_init_phil(t_all *info)
 		info->phil[i].data = info->data;
 		info->phil[i].must_eat = info->data->must_eat;
 		info->phil[i].mutex = info->mutexes;
+		info->phil[i].data_block = info->mutexes->data_block[i];
 		info->phil[i].r_fork = &info->mutexes->forks[i];
 		info->phil[i].l_fork = &info->mutexes->forks[(i + 1) % \
 			info->data->phil_count];
@@ -46,10 +47,46 @@ int	mutex_init(t_all *info, t_data *data)
 	info->mutexes->forks = malloc(sizeof(pthread_mutex_t) * data->phil_count);
 	if (!info->mutexes->forks)
 		return (ft_free_all(info, ERRNUM_MALLOC_INIT));
-	if (pthread_mutex_init(&info->mutexes->output, NULL))
+	info->mutexes->data_block = malloc(sizeof(pthread_mutex_t) * data->phil_count);
+	if (!info->mutexes->data_block)
+		return (ft_free_all(info, ERRNUM_MALLOC_INIT));
+	if (pthread_mutex_init(&info->mutexes->output_block, NULL))
 		return (ft_free_all(info, ERRNUM_MUTEX_INIT));
 	while (++i < data->phil_count)
+	{
 		if (pthread_mutex_init(&info->mutexes->forks[i], NULL))
 			return (ft_free_all(info, ERRNUM_MUTEX_INIT));
+		if (pthread_mutex_init(&info->mutexes->data_block[i], NULL))
+			return (ft_free_all(info, ERRNUM_MUTEX_INIT));
+	}
 	return (ft_init_phil(info));
+}
+
+int	make_thread(t_all *info, int i)
+{
+	while (i < info->data->phil_count)
+	{
+		info->phil[i].start_time = info->data->start_time;
+		info->phil[i].last_meal = info->data->start_time;
+		if (pthread_create(&info->phil[i].thread, NULL, \
+			&start_act, &info->phil[i]) != 0)
+			return (ERRNUM_THREAD_CREATE);
+		i += 2;
+	}
+	return (0);
+}
+
+int	thread_init(t_all *info)
+{
+	info->data->start_time = ft_get_time();
+	if (make_thread(info, 0))
+		return (ft_free_all(info, ERRNUM_THREAD_CREATE));
+	usleep(100);
+	if (make_thread(info, 1))
+		return (ft_free_all(info, ERRNUM_THREAD_CREATE));
+	if (pthread_create(&info->dead, NULL, &thread_control, info) != 0)
+		return (ft_free_all(info, ERRNUM_THREAD_CREATE));
+	if (pthread_join(info->dead, NULL) != 0)
+		return (ft_free_all(info, ERRNUM_THREAD_JOIN));
+	return (0);
 }

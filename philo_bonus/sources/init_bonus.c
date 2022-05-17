@@ -6,7 +6,7 @@
 /*   By: celadia <celadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 07:30:53 by celadia           #+#    #+#             */
-/*   Updated: 2022/05/16 17:37:10 by celadia          ###   ########.fr       */
+/*   Updated: 2022/05/17 17:38:53 by celadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_init_phil(t_all *info)
 	info->phil->pid = malloc(sizeof(pid_t) * info->data->phil_count);
 	if (!info->phil->pid)
 		ft_free_all(info, ERROR_MALLOC_INIT);
-	info->data->flag = 0;
+	info->data->flag = 1;
 	info->phil->must_eat = info->data->must_eat;
 	info->phil->data = info->data;
 	info->phil->sema = info->sema;
@@ -32,8 +32,8 @@ void	sema_init(t_all *info, t_data *data)
 	info->sema = (t_sema *)malloc(sizeof(t_sema));
 	if (!info->sema)
 		ft_error(ERROR_MALLOC_INIT);
-	sem_unlink("output");
-	info->sema->output = sem_open("output", O_CREAT, 0644, 1);
+	sem_unlink("output_block");
+	info->sema->output = sem_open("output_block", O_CREAT, 0644, 1);
 	if (info->sema->output == SEM_FAILED)
 		ft_free_all(info, ERROR_SEMOPEN);
 	sem_unlink("forks");
@@ -42,4 +42,42 @@ void	sema_init(t_all *info, t_data *data)
 	if (info->sema->forks == SEM_FAILED)
 		ft_free_all(info, ERROR_SEMOPEN);
 	ft_init_phil(info);
+}
+
+void	wait_loop(t_all *info)
+{
+	int	i;
+	int	status;
+
+	i = -1;
+	while (++i < info->data->phil_count)
+	{
+		waitpid(-1, &status, 0);
+		if (status == 0)
+		{
+			i = -1;
+			while (++i < info->data->phil_count)
+				kill(info->phil->pid[i], SIGTERM);
+			break ;
+		}
+	}
+}
+
+void	process_init(t_all *info)
+{
+	int	i;
+
+	i = -1;
+	while (++i < info->data->phil_count)
+	{
+		info->phil->pid[i] = fork();
+		if (!info->phil->pid[i])
+		{
+			info->phil->phil_id = i + 1;
+			start_bonus(info->phil);
+		}
+		else if (info->phil->pid[i] == -1)
+			ft_free_all(info, ERROR_PID);
+	}
+	wait_loop(info);
 }

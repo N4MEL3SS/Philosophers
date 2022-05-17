@@ -14,12 +14,12 @@
 
 int	ft_forever(void)
 {
-	write(1, GREY, COLOR_SIZE);
-	write(1, "We're here, it's now\n", 21);
-	write(1, "We live forever\n", 16);
-	write(1, "The time has come\n", 18);
-	write(1, "We live forever\n", 16);
-	write(1, RESET, COLOR_SIZE);
+	write(2, GREY, COLOR_SIZE);
+	write(2, "We're here, it's now\n", 21);
+	write(2, "We live forever\n", 16);
+	write(2, "The time has come\n", 18);
+	write(2, "We live forever\n", 16);
+	write(2, RESET, COLOR_SIZE);
 	return (EXIT_FAILURE);
 }
 

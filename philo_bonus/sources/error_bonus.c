@@ -37,7 +37,7 @@ void	ft_forever(void)
 
 void	ft_free_all(t_all *info, char *str)
 {
-	sem_unlink("output");
+	sem_unlink("output_block");
 	sem_unlink("forks");
 	if (info->sema->output)
 		sem_close(info->sema->output);
