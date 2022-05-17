@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-
+/*
 int		mutex_check(t_phil_data *phil)
 {
 	long	time;
@@ -26,15 +26,14 @@ int		mutex_check(t_phil_data *phil)
 	}
 	return (0);
 }
+*/
 
 void	eating(t_phil_data *phil)
 {
 	long		time;
 
 	pthread_mutex_lock(phil->r_fork);
-//	pthread_mutex_lock(phil->l_fork);
-	if (mutex_check(phil))
-		return ;
+	pthread_mutex_lock(phil->l_fork);
 	pthread_mutex_lock(&phil->data_block);
 	phil->last_meal = ft_get_time();
 	pthread_mutex_unlock(&phil->data_block);
