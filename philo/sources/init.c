@@ -50,7 +50,8 @@ int	mutex_init(t_all *info, t_data *data)
 	info->mutexes->forks = malloc(sizeof(pthread_mutex_t) * data->phil_count);
 	if (!info->mutexes->forks)
 		return (ft_free_all(info, ERRNUM_MALLOC_INIT));
-	info->mutexes->data_block = malloc(sizeof(pthread_mutex_t) * data->phil_count);
+	info->mutexes->data_block = malloc(sizeof(pthread_mutex_t) * \
+			data->phil_count);
 	if (!info->mutexes->data_block)
 		return (ft_free_all(info, ERRNUM_MALLOC_INIT));
 	if (pthread_mutex_init(&info->mutexes->output_block, NULL))

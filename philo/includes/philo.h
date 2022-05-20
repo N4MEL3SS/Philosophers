@@ -90,8 +90,9 @@ int		ft_error(int errnum);
 int		ft_free_all(t_all *info, int errnum);
 
 /* utils.c */
+void	ft_msg(t_phil_data *phil, char *color, char *msg, long time);
+void	ft_wait(t_phil_data *phil, int delay, int flag);
 int		ft_strlen(const char *str);
 long	ft_get_time(void);
-void	ft_wait(int wait_time);
 
 #endif //PHILO_H

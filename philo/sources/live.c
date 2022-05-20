@@ -29,33 +29,18 @@ int		mutex_check(t_phil_data *phil)
 }
 */
 
-void	ft_msg(t_phil_data *phil, char *color, char *msg, long time)
-{
-	pthread_mutex_lock(phil->output_block);
-	printf(TEXT, color, time, RESET, phil->phil_id, color, msg, RESET);
-	pthread_mutex_unlock(phil->output_block);
-}
-
 void	eating(t_phil_data *phil)
 {
 	pthread_mutex_lock(phil->r_fork);
 	pthread_mutex_lock(phil->l_fork);
-	pthread_mutex_lock(phil->data_block);
-	phil->last_meal = ft_get_time();
-	pthread_mutex_unlock(phil->data_block);
-	ft_msg(phil, YELLOW, L_FORK, phil->last_meal - phil->start_time);
-	ft_msg(phil, YELLOW, R_FORK, phil->last_meal - phil->start_time);
-	ft_msg(phil, CYAN, EAT, phil->last_meal - phil->start_time);
-	ft_wait(phil->time_eat);
+	ft_wait(phil, phil->time_eat, 1);
 	pthread_mutex_unlock(phil->r_fork);
 	pthread_mutex_unlock(phil->l_fork);
 }
 
 void	sleeping(t_phil_data *phil)
 {
-	ft_msg(phil, BLUE, SLEEP, \
-		ft_get_time() - phil->start_time);
-	ft_wait(phil->time_sleep);
+	ft_wait(phil, phil->time_sleep, 0);
 }
 
 void	thinking(t_phil_data *phil)
@@ -69,7 +54,6 @@ void	*start_act(void *phil_thread)
 	t_phil_data	*phil;
 
 	phil = (t_phil_data *)phil_thread;
-//	pthread_detach(phil->thread);
 	if (phil->must_eat == 0)
 		return (NULL);
 	while (phil->exit_flag)
