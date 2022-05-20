@@ -12,16 +12,20 @@
 
 #include "philo_bonus.h"
 
+void	ft_msg(t_phil_data *phil, char *color, char *msg, long time)
+{
+	sem_wait(phil->sema->output);
+	printf(TEXT, color, time, RESET, phil->phil_id, color, msg, RESET);
+	sem_post(phil->sema->output);
+}
+
 void	eating(t_phil_data *phil)
 {
-	long		time;
-
 	sem_wait(phil->sema->forks);
-	time = ft_get_time() - phil->start_time;
-	ft_msg(phil, YELLOW, FORKS, time);
-	ft_msg(phil, CYAN, EAT, time);
+	ft_msg(phil, YELLOW, FORKS, ft_get_time() - phil->start_time);
+	ft_msg(phil, CYAN, EAT, ft_get_time() - phil->start_time);
 	phil->last_meal = ft_get_time();
-	ft_wait(phil->data->time_eat);
+	ft_wait(phil->time_eat);
 	sem_post(phil->sema->forks);
 }
 
@@ -29,7 +33,7 @@ void	sleeping(t_phil_data *phil)
 {
 	ft_msg(phil, BLUE, SLEEP, \
 		ft_get_time() - phil->start_time);
-	ft_wait(phil->data->time_sleep);
+	ft_wait(phil->time_sleep);
 }
 
 void	thinking(t_phil_data *phil)
@@ -42,8 +46,6 @@ void	*start_bonus(t_phil_data *phil)
 {
 	pthread_t	dead_thread;
 
-	phil->start_time = ft_get_time();
-	phil->last_meal = phil->start_time;
 	pthread_create(&dead_thread, NULL, thread_control, (void *)phil);
 	pthread_detach(dead_thread);
 	while (phil->must_eat)
@@ -54,5 +56,5 @@ void	*start_bonus(t_phil_data *phil)
 		sleeping(phil);
 		thinking(phil);
 	}
-	return (NULL);
+	exit(0);
 }

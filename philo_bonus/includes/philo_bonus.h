@@ -48,13 +48,15 @@ typedef struct s_sema
 
 typedef struct s_phil_data
 {
-	int					phil_id;
-	int					must_eat;
-	long				start_time;
-	long				last_meal;
-	t_data				*data;
-	pid_t				*pid;
-	t_sema				*sema;
+	int			phil_id;
+	int			must_eat;
+	int			time_die;
+	int			time_eat;
+	int			time_sleep;
+	long		start_time;
+	long		last_meal;
+	pid_t		*pid;
+	t_sema		*sema;
 }				t_phil_data;
 
 typedef struct s_all
@@ -77,7 +79,6 @@ void	ft_wait(int delay);
 void	*thread_control(void *philos);
 
 /* utils.c */
-void	ft_msg(t_phil_data *phil, char *color, char *msg, long time);
 int		ft_strlen(const char *str);
 long	ft_get_time(void);
 

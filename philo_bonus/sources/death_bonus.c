@@ -15,7 +15,7 @@
 void	death_checker(t_phil_data *phil)
 {
 	sem_wait(phil->sema->output);
-	if (ft_get_time() - phil->last_meal > phil->data->time_die)
+	if (ft_get_time() - phil->last_meal > phil->time_die)
 	{
 		printf("%sThe Philosopher %d is dead. Time of death %ld %s\n", \
 			RED, phil->phil_id, ft_get_time() - phil->start_time, RESET);
@@ -32,7 +32,6 @@ void	*thread_control(void *philos)
 	while (phil->must_eat)
 		death_checker(phil);
 	sem_wait(phil->sema->output);
-//	usleep(10);
 	printf("%sThe Philosophers are full sad!%s\n", GREEN, RESET);
 	exit (0);
 }

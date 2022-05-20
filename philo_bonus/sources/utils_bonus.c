@@ -12,14 +12,6 @@
 
 #include "philo_bonus.h"
 
-void	ft_msg(t_phil_data *phil, char *color, char *msg, long time)
-{
-	sem_wait(phil->sema->output);
-	if (phil->data->flag)
-		printf(TEXT, color, time, RESET, phil->phil_id, color, msg, RESET);
-	sem_post(phil->sema->output);
-}
-
 long	ft_get_time(void)
 {
 	struct timeval	time;

@@ -25,6 +25,7 @@ void	ft_free_forks(t_all *info)
 			pthread_mutex_destroy(&info->mutexes->data_block[i]);
 	}
 	free(info->mutexes->forks);
+	free(info->mutexes->data_block);
 }
 
 void	ft_free_mutex(t_all *info)

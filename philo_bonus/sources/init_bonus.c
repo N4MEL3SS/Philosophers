@@ -22,7 +22,9 @@ void	ft_init_phil(t_all *info)
 		ft_free_all(info, ERROR_MALLOC_INIT);
 	info->data->flag = 1;
 	info->phil->must_eat = info->data->must_eat;
-	info->phil->data = info->data;
+	info->phil->time_die = info->data->time_die;
+	info->phil->time_eat = info->data->time_eat;
+	info->phil->time_sleep = info->data->time_sleep;
 	info->phil->sema = info->sema;
 }
 
@@ -68,6 +70,8 @@ void	process_init(t_all *info)
 	int	i;
 
 	i = -1;
+	info->phil->start_time = ft_get_time();
+	info->phil->last_meal = info->phil->start_time;
 	while (++i < info->data->phil_count)
 	{
 		info->phil->pid[i] = fork();

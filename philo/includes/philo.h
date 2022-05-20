@@ -46,18 +46,22 @@ typedef struct s_phil_data
 {
 	int					phil_id;
 	int					must_eat;
+	int					time_die;
+	int					time_eat;
+	int					time_sleep;
+	int					exit_flag;
 	long				start_time;
 	long				last_meal;
-	t_data				*data;
-	t_mutexes			*mutex;
-	pthread_mutex_t		data_block;
 	pthread_t			thread;
+	pthread_mutex_t		*output_block;
+	pthread_mutex_t		*data_block;
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
 }				t_phil_data;
 
 typedef struct s_all
 {
+	int				meals;
 	t_data			*data;
 	t_mutexes		*mutexes;
 	t_phil_data		*phil;
@@ -86,7 +90,6 @@ int		ft_error(int errnum);
 int		ft_free_all(t_all *info, int errnum);
 
 /* utils.c */
-void	ft_msg(t_phil_data *phil, char *color, char *msg, long time);
 int		ft_strlen(const char *str);
 long	ft_get_time(void);
 void	ft_wait(int wait_time);

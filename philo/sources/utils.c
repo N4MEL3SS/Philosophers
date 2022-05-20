@@ -12,13 +12,6 @@
 
 #include "philo.h"
 
-void	ft_msg(t_phil_data *phil, char *color, char *msg, long time)
-{
-	pthread_mutex_lock(&phil->mutex->output_block);
-	printf(TEXT, color, time, RESET, phil->phil_id, color, msg, RESET);
-	pthread_mutex_unlock(&phil->mutex->output_block);
-}
-
 long	ft_get_time(void)
 {
 	struct timeval	time;
@@ -33,7 +26,7 @@ void	ft_wait(int delay)
 
 	wait_time = ft_get_time() + delay;
 	while (ft_get_time() < wait_time)
-		usleep(delay / 4);
+		usleep(delay / 8);
 }
 
 int	ft_strlen(const char *str)
